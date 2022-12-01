@@ -32,7 +32,7 @@ Problem GetProblem(int? year = null, int? day = null)
 
 
 
-var problem = GetProblem(2016, 1);
+var problem = GetProblem();
 
 Console.WriteLine($"Year {problem.Year}, day {problem.Day}");
 Console.WriteLine();
