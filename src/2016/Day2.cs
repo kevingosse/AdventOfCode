@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AdventOfCode._2016
+﻿namespace AdventOfCode._2016
 {
     internal class Day2 : Problem
     {
