@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AdventOfCode
+﻿namespace AdventOfCode
 {
     internal static class Extensions
     {
+        public static T[] New<T>(this T[] array) where T : new()
+        {
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = new();
+            }
+
+            return array;
+        }
+
         public static void Deconstruct<T>(this IEnumerable<T> enumerable, out T value1)
         {
             value1 = enumerable.First();
