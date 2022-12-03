@@ -2,6 +2,11 @@
 {
     internal static class Extensions
     {
+        public static IEnumerable<T> IntersectMany<T>(this IEnumerable<IEnumerable<T>> source)
+        {
+            return source.Aggregate((s1, s2) =>  s1.Intersect(s2));
+        }
+
         public static T[] New<T>(this T[] array) where T : new()
         {
             for (int i = 0; i < array.Length; i++)
