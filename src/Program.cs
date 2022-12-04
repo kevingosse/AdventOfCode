@@ -9,25 +9,10 @@ Problem GetProblem(int? year = null, int? day = null)
         .Cast<Problem>()
         .ToArray();
 
-    year ??= allProblems
-        .Select(p => p.Year)
-        .OrderByDescending(p => p)
-        .First();
+    year ??= allProblems.Max(p => p.Year);
+    day ??= allProblems.Where(p => p.Year == year).Max(p => p.Day);
 
-    day ??= allProblems
-        .Where(p => p.Year == year)
-        .Select(p => p.Day)
-        .OrderByDescending(p => p)
-        .First();
-
-    var type = Type.GetType($"AdventOfCode._{year}.Day{day}");
-
-    if (type == null)
-    {
-        throw new Exception($"Could not find specified day and year");
-    }
-
-    return (Problem)Activator.CreateInstance(type)!;
+    return allProblems.First(p => p.Year == year && p.Day == day);
 }
 
 
