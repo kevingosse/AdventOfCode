@@ -1,10 +1,12 @@
-﻿namespace AdventOfCode
+﻿using System.Text.RegularExpressions;
+
+namespace AdventOfCode
 {
     internal static class Extensions
     {
         public static IEnumerable<T> IntersectMany<T>(this IEnumerable<IEnumerable<T>> source)
         {
-            return source.Aggregate((s1, s2) =>  s1.Intersect(s2));
+            return source.Aggregate((s1, s2) => s1.Intersect(s2));
         }
 
         public static T[] New<T>(this T[] array) where T : new()
@@ -15,6 +17,18 @@
             }
 
             return array;
+        }
+
+        public static (T1, T2, T3) As<T1, T2, T3>(this Match match)
+            where T1 : IConvertible
+            where T2 : IConvertible
+            where T3 : IConvertible
+        {
+            var value1 = (T1)Convert.ChangeType(match.Groups[1].Value, typeof(T1));
+            var value2 = (T2)Convert.ChangeType(match.Groups[2].Value, typeof(T2));
+            var value3 = (T3)Convert.ChangeType(match.Groups[3].Value, typeof(T3));
+
+            return (value1, value2, value3);
         }
 
         public static void Deconstruct<T>(this IEnumerable<T> enumerable, out T value1)
