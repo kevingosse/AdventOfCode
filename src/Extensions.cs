@@ -19,6 +19,16 @@ namespace AdventOfCode
             return array;
         }
 
+        public static (T1, T2) As<T1, T2>(this Array array)
+            where T1 : IConvertible
+            where T2 : IConvertible
+        {
+            var value1 = (T1)Convert.ChangeType(array.GetValue(0)!, typeof(T1));
+            var value2 = (T2)Convert.ChangeType(array.GetValue(1)!, typeof(T2));
+
+            return (value1, value2);
+        }
+
         public static (T1, T2) As<T1, T2>(this Match match)
             where T1 : IConvertible
             where T2 : IConvertible
