@@ -100,28 +100,24 @@ namespace AdventOfCode
             return (value1, value2, value3, value4, value5);
         }
 
-        public static void Deconstruct<T>(this IEnumerable<T> enumerable, out T value1)
+        public static void Deconstruct<T>(this IEnumerable<T> enumerable, out T? value1)
         {
             value1 = enumerable.First();
         }
 
-        public static void Deconstruct<T>(this IEnumerable<T> enumerable, out T value1, out T value2)
+        public static void Deconstruct<T>(this IEnumerable<T> enumerable, out T? value1, out T? value2)
         {
-            using (var enumerator = enumerable.GetEnumerator())
-            {
-                value1 = TryEnumerate(enumerator);
-                value2 = TryEnumerate(enumerator);
-            }
+            using var enumerator = enumerable.GetEnumerator();
+            value1 = TryEnumerate(enumerator);
+            value2 = TryEnumerate(enumerator);
         }
 
-        public static void Deconstruct<T>(this IEnumerable<T> enumerable, out T value1, out T value2, out T value3)
+        public static void Deconstruct<T>(this IEnumerable<T> enumerable, out T? value1, out T? value2, out T? value3)
         {
-            using (var enumerator = enumerable.GetEnumerator())
-            {
-                value1 = TryEnumerate(enumerator);
-                value2 = TryEnumerate(enumerator);
-                value3 = TryEnumerate(enumerator);
-            }
+            using var enumerator = enumerable.GetEnumerator();
+            value1 = TryEnumerate(enumerator);
+            value2 = TryEnumerate(enumerator);
+            value3 = TryEnumerate(enumerator);
         }
 
         public static List<T[]> GetPermutations<T>(this IEnumerable<T> source)
@@ -132,14 +128,9 @@ namespace AdventOfCode
             return results;
         }
 
-        private static T TryEnumerate<T>(IEnumerator<T> enumerator)
+        private static T? TryEnumerate<T>(IEnumerator<T> enumerator)
         {
-            if (!enumerator.MoveNext())
-            {
-                throw new InvalidOperationException();
-            }
-
-            return enumerator.Current;
+            return enumerator.MoveNext() ? enumerator.Current : default;
         }
 
         private static void Permute<T>(T[] elements, int recursionDepth, int maxDepth, ICollection<T[]> results)
