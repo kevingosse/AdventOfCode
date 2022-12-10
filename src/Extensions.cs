@@ -29,6 +29,12 @@ namespace AdventOfCode
             return (value1, value2);
         }
 
+        public static T As<T>(this Match match)
+            where T : IConvertible
+        {
+            return (T)Convert.ChangeType(match.Groups[1].Value, typeof(T));
+        }
+
         public static (T1, T2) As<T1, T2>(this Match match)
             where T1 : IConvertible
             where T2 : IConvertible
