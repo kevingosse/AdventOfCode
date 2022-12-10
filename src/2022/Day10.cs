@@ -44,14 +44,7 @@ internal class Day10 : Problem
 
         foreach (var cycle in _cycles)
         {
-            if (Math.Abs(cycle - position) <= 1)
-            {
-                Console.Write('#');
-            }
-            else
-            {
-                Console.Write(' ');
-            }
+            Console.Write(Math.Abs(cycle - position) <= 1 ? '#' : ' ');
 
             position = (position + 1) % 40;
 
