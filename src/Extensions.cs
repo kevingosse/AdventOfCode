@@ -4,13 +4,32 @@ namespace AdventOfCode;
 
 internal static class Extensions
 {
+    public static bool TryGetInt32(this Match match, string key, out int value)
+    {
+        var group = match.Groups[key];
+
+        if (group.Success)
+        {
+            value = int.Parse(match.Groups[key].Value);
+            return true;
+        }
+
+        value = default;
+        return false;
+    }
+
+    public static int GetInt32(this Match match, string key)
+    {
+        return int.Parse(match.Groups[key].Value);
+    }
+
     public static int AsInt32(this string value)
     {
         return int.Parse(value);
     }
 
     public static TValue GetOrAdd<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
-        where TValue : new() 
+        where TValue : new()
         where TKey : notnull
     {
         if (!dictionary.TryGetValue(key, out var value))
