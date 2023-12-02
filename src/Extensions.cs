@@ -4,6 +4,32 @@ namespace AdventOfCode;
 
 internal static class Extensions
 {
+    public static (T min, T max) MinMax<T>(this (T, T) values) where T : struct, IComparable<T>
+    {
+        return values.Item1.CompareTo(values.Item2) < 0 ? (values.Item1, values.Item2) : (values.Item2, values.Item1);
+    }
+
+    public static (T min, T max) MinMax<T>(this IEnumerable<T> values) where T : struct, IComparable<T>
+    {
+        T? min = null;
+        T? max = null;
+
+        foreach (var value in values)
+        {
+            if (min == null || value.CompareTo(min.Value) < 0)
+            {
+                min = value;
+            }
+
+            if (max == null || value.CompareTo(max.Value) > 0)
+            {
+                max = value;
+            }
+        }
+
+        return (min!.Value, max!.Value);
+    }
+
     public static bool TryGetInt32(this Match match, string key, out int value)
     {
         var group = match.Groups[key];
