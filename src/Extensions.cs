@@ -4,6 +4,26 @@ namespace AdventOfCode;
 
 internal static class Extensions
 {
+    public static IEnumerable<(T previous, T current)> EnumerateWithPrevious<T>(this IEnumerable<T> source)
+    {
+        T? previousValue = default;
+        bool firstItem = true;
+
+        foreach (var item in source)
+        {
+            if (firstItem)
+            {
+                firstItem = false;
+            }
+            else
+            {
+                yield return (previousValue!, item);
+            }
+
+            previousValue = item;
+        }
+    }
+
     public static (T min, T max) MinMax<T>(this (T, T) values) where T : struct, IComparable<T>
     {
         return values.Item1.CompareTo(values.Item2) < 0 ? (values.Item1, values.Item2) : (values.Item2, values.Item1);
