@@ -198,6 +198,11 @@ internal static class Extensions
         return results;
     }
 
+    public static ref T At<T>(this T[][] array, Point position)
+    {
+        return ref array[position.Line][position.Column];
+    }
+
     private static T? TryEnumerate<T>(IEnumerator<T> enumerator)
     {
         return enumerator.MoveNext() ? enumerator.Current : default;
