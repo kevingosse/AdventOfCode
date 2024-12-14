@@ -37,4 +37,6 @@ internal record struct Point(int Line, int Column)
         yield return new(1, -1);
         yield return new(1, 1);
     }
+
+    public override string ToString() => $"{Line},{Column}";
 }
