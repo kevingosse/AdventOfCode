@@ -24,6 +24,32 @@ internal static class Extensions
         }
     }
 
+    public static (T max, int index) IndexOfMax<T>(this IEnumerable<T> values) where T : struct, IComparable<T>
+    {
+        T? max = null;
+        int index = -1;
+
+        int currentIndex = -1;
+
+        foreach (var value in values)
+        {
+            currentIndex++;
+
+            if (max == null || value.CompareTo(max.Value) > 0)
+            {
+                max = value;
+                index = currentIndex;
+            }
+        }
+
+        if (max == null)
+        {
+            throw new InvalidOperationException("Sequence is empty");
+        }
+
+        return (max.Value, index);
+    }
+
     public static (T min, T max) MinMax<T>(this (T, T) values) where T : struct, IComparable<T>
     {
         return values.Item1.CompareTo(values.Item2) < 0 ? (values.Item1, values.Item2) : (values.Item2, values.Item1);
