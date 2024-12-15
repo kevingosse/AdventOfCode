@@ -12,6 +12,11 @@ internal record struct Point(int Line, int Column)
         return new Point { Line = a.Line - b.Line, Column = a.Column - b.Column };
     }
 
+    public static Point operator *(Point a, int factor)
+    {
+        return new Point { Line = a.Line * factor, Column = a.Column * factor };
+    }
+
     public readonly bool IsWithinBounds<T>(T[][] array)
     {
         return Line >= 0 && Line < array.Length
