@@ -2,9 +2,16 @@
 
 internal record struct Point(int Line, int Column)
 {
+    public static readonly Point[] Offsets = GetOffsets().ToArray();
+
     public static Point operator +(Point a, Point b)
     {
         return new Point { Line = a.Line + b.Line, Column = a.Column + b.Column };
+    }
+
+    public static Point operator +(Point point, Direction direction)
+    {
+        return point + direction.Offset;
     }
 
     public static Point operator -(Point a, Point b)
@@ -15,6 +22,11 @@ internal record struct Point(int Line, int Column)
     public static Point operator *(Point a, int factor)
     {
         return new Point { Line = a.Line * factor, Column = a.Column * factor };
+    }
+    
+    public static implicit operator Point(ValueTuple<int, int> coordinates)
+    {
+        return new(coordinates.Item1, coordinates.Item2);
     }
 
     public readonly bool IsWithinBounds<T>(T[][] array)
