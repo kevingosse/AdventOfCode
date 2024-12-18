@@ -8,7 +8,7 @@ internal class Day18 : Problem
     private const int Height = 71;
 
     public override void Solve()
-    {        
+    {
         var map = new char[Height][];
 
         for (int i = 0; i < Height; i++)
@@ -28,26 +28,39 @@ internal class Day18 : Problem
 
     public override void Solve2()
     {
-        var map = new char[Height][];
+        var input = File.ReadLines(Input).Select(l => l.Split(',').As<int, int>()).ToArray();
 
-        for (int i = 0; i < Height; i++)
+        var first = 0;
+        var last = input.Length - 1;
+
+        while (first < last)
         {
-            map[i] = new char[Width];
-        }
+            var middle = (first + last) / 2;
 
-        foreach ((int x, int y) in File.ReadLines(Input).Select(l => l.Split(',').As<int, int>()))
-        {
-            var point = new Point(y, x);
-            map.At(point) = '#';
+            var map = new char[Height][];
 
-            int result = FindBestPath(map, new());
-
-            if (result == int.MaxValue)
+            for (int i = 0; i < Height; i++)
             {
-                Console.WriteLine($"{point.Column},{point.Line}");
-                break;
+                map[i] = new char[Width];
+            }
+
+            for (int i = 0; i < middle; i++)
+            {
+                map.At((input[i].Item2, input[i].Item1)) = '#';
+            }
+
+            if (FindBestPath(map, new()) == int.MaxValue)
+            {
+                last = middle;
+            }
+            else
+            {
+                first = middle + 1;
             }
         }
+
+        var result = input[first - 1];
+        Console.WriteLine($"{result.Item1},{result.Item2}");
     }
 
     private int FindBestPath(char[][] map, Dictionary<Point, int> cache)
