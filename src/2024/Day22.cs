@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace AdventOfCode._2024;
@@ -40,8 +39,7 @@ internal class Day22 : Problem
 
     public override void Solve2()
     {
-        var allResults = new Dictionary<Sequence, int[]>();
-
+        var allResults = new Dictionary<uint, int[]>();
         var lines = File.ReadAllLines(Input);
 
         for (int lineIndex = 0; lineIndex < lines.Length; lineIndex++)
@@ -49,7 +47,7 @@ internal class Day22 : Problem
             var line = lines[lineIndex];
             var initialNumber = BigInteger.Parse(line);
 
-            Sequence sequence = 0;
+            uint sequence = 0;
             var previousNumber = sbyte.Parse(initialNumber.ToString()[^1..]);
 
             int i = -1;
@@ -58,7 +56,7 @@ internal class Day22 : Problem
             {
                 i++;
                 var b = sbyte.Parse(number.ToString()[^1..]);
-                sequence = unchecked(((uint)sequence) << 8 | (byte)(b - previousNumber));
+                sequence = unchecked(sequence << 8 | (byte)(b - previousNumber));
 
                 if (i < 4)
                 {
@@ -85,38 +83,5 @@ internal class Day22 : Problem
 
         var result = allResults.Values.Select(v => v.Where(n => n != -1).Sum()).Max();
         Console.WriteLine(result);
-    }
-
-    [InlineArray(4)]
-    private unsafe struct Sequence : IEquatable<Sequence>
-    {
-        private sbyte _value;
-
-        public static implicit operator uint(Sequence sequence)
-        {
-            var ptr = &sequence;
-            return *(uint*)ptr;
-        }
-
-        public static implicit operator Sequence(uint value)
-        {
-            var ptr = &value;
-            return *(Sequence*)ptr;
-        }
-
-        public readonly bool Equals(Sequence other)
-        {
-            return (uint)this == (uint)other;
-        }
-
-        public override readonly int GetHashCode()
-        {
-            return ((uint)this).GetHashCode();
-        }
-
-        public override readonly bool Equals(object? obj)
-        {
-            return obj is Sequence seq && Equals(seq);
-        }
     }
 }
