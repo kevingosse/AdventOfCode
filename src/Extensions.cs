@@ -1,9 +1,21 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 
 namespace AdventOfCode;
 
 internal static class Extensions
 {
+    public static bool IsMatch(this string input, [StringSyntax("Regex")] string pattern)
+    {
+        return Regex.IsMatch(input, pattern);
+    }
+
+    public static Match Match(this string input, [StringSyntax("Regex")] string pattern)
+    {
+        return Regex.Match(input, pattern);
+    }
+
     public static IEnumerable<(T previous, T current)> EnumerateWithPrevious<T>(this IEnumerable<T> source)
     {
         T? previousValue = default;
@@ -100,17 +112,24 @@ internal static class Extensions
         return int.Parse(value);
     }
 
-    public static TValue GetOrAdd<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
+    public static ref TValue GetOrAdd<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
         where TValue : new()
         where TKey : notnull
     {
-        if (!dictionary.TryGetValue(key, out var value))
+        return ref dictionary.GetOrAdd(key, _ => new TValue());
+    }
+
+    public static ref TValue GetOrAdd<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> factory)
+        where TKey : notnull
+    {
+        ref var value = ref CollectionsMarshal.GetValueRefOrAddDefault(dictionary, key, out var exists);
+
+        if (!exists)
         {
-            value = new();
-            dictionary.Add(key, value);
+            value = factory(key);
         }
 
-        return value;
+        return ref value!;
     }
 
     public static IEnumerable<T> IntersectMany<T>(this IEnumerable<IEnumerable<T>> source)
