@@ -249,6 +249,21 @@ internal static class Extensions
         return ref array[position.Line][position.Column];
     }
 
+    extension (Array array)
+    {
+        public static T[][] Create<T>(int lines, int columns)
+        {
+            var result = new T[lines][];
+
+            for (int i = 0; i < lines; i++)
+            {
+                result[i] = new T[columns];
+            }
+
+            return result;
+        }
+    }
+
     private static T? TryEnumerate<T>(IEnumerator<T> enumerator)
     {
         return enumerator.MoveNext() ? enumerator.Current : default;
