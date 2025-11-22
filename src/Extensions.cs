@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace AdventOfCode;
 
+[SuppressMessage("ReSharper", "ConvertToExtensionBlock")]
 internal static class Extensions
 {
     public static bool IsMatch(this string input, [StringSyntax("Regex")] string pattern)
@@ -269,10 +270,5 @@ internal static class Extensions
         }
     }
 
-    private static void Swap<T>(ref T a, ref T b)
-    {
-        T tmp = a;
-        a = b;
-        b = tmp;
-    }
+    private static void Swap<T>(ref T a, ref T b) => (a, b) = (b, a);
 }
