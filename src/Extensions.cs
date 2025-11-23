@@ -37,7 +37,7 @@ internal static class Extensions
         }
     }
 
-    public static (T max, int index) IndexOfMax<T>(this IEnumerable<T> values) where T : struct, IComparable<T>
+    public static (T Max, int Index) IndexOfMax<T>(this IEnumerable<T> values) where T : struct, IComparable<T>
     {
         T? max = null;
         int index = -1;
