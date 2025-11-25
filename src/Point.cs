@@ -55,5 +55,10 @@ internal record struct Point(int Line, int Column)
         yield return new(1, 1);
     }
 
+    public int ManhattanDistanceTo(Point point)
+    {
+        return Math.Abs(Line - point.Line) + Math.Abs(Column - point.Column);
+    }
+
     public override string ToString() => $"{Line},{Column}";
 }

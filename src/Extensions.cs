@@ -249,7 +249,27 @@ internal static class Extensions
         return ref array[position.Line][position.Column];
     }
 
-    extension (Array array)
+    public static IEnumerable<Point> AllPoints<T>(this T[][] array)
+    {
+        var maxLine = array.Length;
+
+        if (maxLine == 0)
+        {
+            yield break;
+        }
+
+        var maxColumn = array[0].Length;
+
+        for (int line = 0; line < maxLine; line++)
+        {
+            for (int column = 0; column < maxColumn; column++)
+            {
+                yield return new(line, column);
+            }
+        }
+    }
+
+    extension(Array array)
     {
         public static T[][] Create<T>(int lines, int columns)
         {
