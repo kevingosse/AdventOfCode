@@ -236,6 +236,15 @@ internal static class Extensions
         value3 = TryEnumerate(enumerator);
     }
 
+    public static void Deconstruct<T>(this IEnumerable<T> enumerable, out T? value1, out T? value2, out T? value3, out T? value4)
+    {
+        using var enumerator = enumerable.GetEnumerator();
+        value1 = TryEnumerate(enumerator);
+        value2 = TryEnumerate(enumerator);
+        value3 = TryEnumerate(enumerator);
+        value4 = TryEnumerate(enumerator);
+    }
+
     public static List<T[]> GetPermutations<T>(this IEnumerable<T> source)
     {
         var sourceArray = source.ToArray();
