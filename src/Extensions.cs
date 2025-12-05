@@ -7,6 +7,23 @@ namespace AdventOfCode;
 [SuppressMessage("ReSharper", "ConvertToExtensionBlock")]
 internal static class Extensions
 {
+    public static int Mod(this int input, int mod)
+    {
+        if (input >= 0)
+        {
+            input %= mod;
+        }
+        else
+        {
+            while (input < 0)
+            {
+                input += mod;
+            }
+        }
+
+        return input;
+    }
+
     public static bool IsMatch(this string input, [StringSyntax("Regex")] string pattern)
     {
         return Regex.IsMatch(input, pattern);
